@@ -15,7 +15,8 @@ public static class DomainExtensions
             SerialNumber = elevator.SerialNumber,
             OpenStreetMapId = elevator.OpenStreetMapId,
             Properties = elevator.Properties,
-            Operator = elevator.Operator.ToModel()
+            Operator = elevator.Operator.ToModel(),
+            IsOperational = true // todo add actual logic
         };
     }
 

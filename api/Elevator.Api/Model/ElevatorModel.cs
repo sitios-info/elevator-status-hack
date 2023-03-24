@@ -15,4 +15,6 @@ public class ElevatorModel
     public required string? SerialNumber { get; init; }
 
     public required OperatorModel? Operator { get; init; }
+
+    public required bool IsOperational { get; init; }
 }
