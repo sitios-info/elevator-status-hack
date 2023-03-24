@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Elevator.Api.Controllers;
 
 using Domain;
+using Domain.Data;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
@@ -44,10 +45,29 @@ public class ElevatorsController : ControllerBase
             : NotFound();
     }
 
-    [HttpPut]
-    public async Task<ActionResult<ElevatorModel>> PutElevatorAsync()
+    [HttpPost]
+    public async Task<ActionResult<ElevatorModel>> PostElevatorAsync([FromBody] ElevatorCreateModel model)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var elevator = new Elevator
+        {
+            Location = null,
+            ManufacturerName = model.ManufacturerName,
+            OpenStreetMapId = model.OpenStreetMapId,
+            Operator = null,
+            Properties = model.Properties ?? new Dictionary<string, string>(),
+            SerialNumber = model.SerialNumber,
+            Events = ArraySegment<OperationChangeEvent>.Empty
+        };
+
+        await _dbContext.Elevators.AddAsync(elevator);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(elevator.ToModel());
     }
 
     [HttpDelete("{id}")]
