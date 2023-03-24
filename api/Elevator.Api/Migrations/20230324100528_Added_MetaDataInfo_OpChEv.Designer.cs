@@ -3,6 +3,7 @@ using System;
 using Elevator.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Elevator.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230324100528_Added_MetaDataInfo_OpChEv")]
+    partial class Added_MetaDataInfo_OpChEv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -76,7 +79,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeoLocations");
+                    b.ToTable("GeoLocation");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.MetaDataSourceInfo", b =>
@@ -96,7 +99,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MetaDataSourceInfos");
+                    b.ToTable("MetaDataSourceInfo");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.OperationChangeEvent", b =>
@@ -108,7 +111,7 @@ namespace Elevator.Api.Migrations
                     b.Property<DateTime>("ChangedTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ElevatorId")
+                    b.Property<Guid?>("ElevatorId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("MetaDataSourceInfoId")
@@ -128,7 +131,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasIndex("MetaDataSourceInfoId");
 
-                    b.ToTable("OperationChangedEvents");
+                    b.ToTable("OperationChangeEvent");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.Operator", b =>
@@ -151,7 +154,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operators");
+                    b.ToTable("Operator");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.Elevator", b =>
@@ -177,17 +180,13 @@ namespace Elevator.Api.Migrations
 
             modelBuilder.Entity("Elevator.Domain.Data.OperationChangeEvent", b =>
                 {
-                    b.HasOne("Elevator.Domain.Data.Elevator", "Elevator")
+                    b.HasOne("Elevator.Domain.Data.Elevator", null)
                         .WithMany("Events")
-                        .HasForeignKey("ElevatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ElevatorId");
 
                     b.HasOne("Elevator.Domain.Data.MetaDataSourceInfo", "MetaDataSourceInfo")
                         .WithMany()
                         .HasForeignKey("MetaDataSourceInfoId");
-
-                    b.Navigation("Elevator");
 
                     b.Navigation("MetaDataSourceInfo");
                 });

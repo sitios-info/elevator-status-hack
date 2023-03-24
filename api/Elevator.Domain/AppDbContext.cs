@@ -11,7 +11,11 @@ public class AppDbContext: DbContext
     {
     }
 
-    public DbSet<Data.Elevator> Elevators { get; set; } = null!;
+    public required DbSet<Data.Elevator> Elevators { get; set; }
+    public required DbSet<OperationChangeEvent> OperationChangedEvents { get; set; }
+    public required DbSet<Operator> Operators { get; set; }
+    public required DbSet<MetaDataSourceInfo> MetaDataSourceInfos { get; set; }
+    public required DbSet<GeoLocation> GeoLocations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

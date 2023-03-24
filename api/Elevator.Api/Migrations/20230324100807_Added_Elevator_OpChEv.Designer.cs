@@ -3,6 +3,7 @@ using System;
 using Elevator.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Elevator.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230324100807_Added_Elevator_OpChEv")]
+    partial class Added_Elevator_OpChEv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
@@ -76,7 +79,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeoLocations");
+                    b.ToTable("GeoLocation");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.MetaDataSourceInfo", b =>
@@ -96,7 +99,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MetaDataSourceInfos");
+                    b.ToTable("MetaDataSourceInfo");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.OperationChangeEvent", b =>
@@ -151,7 +154,7 @@ namespace Elevator.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operators");
+                    b.ToTable("Operator");
                 });
 
             modelBuilder.Entity("Elevator.Domain.Data.Elevator", b =>
