@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Elevator Status</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Basic styling for the card layout */
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      margin: auto;
+      text-align: center;
+      font-family: arial;
+    }
+    .container {
+      padding: 2px 16px;
+    }
+    .map { height: 240px; }
+  </style>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"/>
+</head>
+<body>
+  <h1>Elevator Status</h1>
+  <div id="cards"></div>
+    <!-- Leaflet JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    fetch('https://data.webservice-kvb.koeln/service/opendata/aufzugsstoerung/json')
+      .then(response => response.json())
+      .then(data => {
+        const cardsContainer = document.querySelector('#cards');
+        if (data && data.features) {
+          data.features.forEach(feature => {
+            const properties = feature.properties;
+            const coordinates = feature.geometry.coordinates;
+            var mapId = `map-${properties.Kennung}`;
+
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <h2>${properties.Bezeichnung}</h2>
+              <div class="container">
+                <p>Status: Störung</p>
+                <p>Haltestelle: ${properties.Haltestellenbereich || '-'}</p>
+                <p>Störung seit: ${new Date(properties.timestamp).toLocaleDateString('de-ch', { weekday:"long", year:"numeric", month:"short", day:"numeric"})|| '-'}</p>
+                <div id="${mapId}" class="map">Karte</div>
+              </div>
+            `;
+            console.log(coordinates[0]);
+            console.log(coordinates[1]);
+            console.log(mapId);
+
+            cardsContainer.appendChild(card);
+
+            var map = L.map(mapId).setView([coordinates[1], coordinates[0]], 13);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([coordinates[1], coordinates[0]]).addTo(map)
+                .bindPopup(`Aufzug ${properties.Kennung}`)
+                .openPopup();
+
+          });
+        } else {
+          const message = document.createElement('p');
+          message.textContent = 'No elevator status data found';
+           cardsContainer.appendChild(message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        const cardsContainer = document.querySelector('#cards');
+        const message = document.createElement('p');
+        message.textContent = 'An error occurred while fetching elevator status data';
+        cardsContainer.appendChild(message);
+      });
+  </script>
+</body>
+</html>
