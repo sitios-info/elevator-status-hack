@@ -9,14 +9,15 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        var url = "https://accessibility-cloud-v2.freetls.fastly.net/";
+        var sourceUrl = "https://accessibility-cloud-v2.freetls.fastly.net/";
         var count = 30;
         var requestUrl = $"equipment-infos.json?appToken=99613c884ebf63b848a6ef16441bcedc&limit={count}&includeRelated=placeInfo";
         var apiUrl = "http://localhost:5028";
 
-        var client = new RestClient(url);
+        var client = new RestClient(sourceUrl);
         var request = new RestRequest(requestUrl);
         var response = await client.GetAsync(request);
+        var httpClient = new HttpClient();
 
         var jResults = JObject.Parse(response.Content);
 
@@ -44,7 +45,7 @@ internal class Program
             var placeProperties = place["properties"];
             var adressText = (string)placeProperties["name"]["de"];
 
-            // TODO: do something nice
+            // dump data
             var elevatorEntry = new
             {
                 longitude,
@@ -57,7 +58,6 @@ internal class Program
             };
             Console.WriteLine(elevatorEntry);
 
-            var httpClient = new HttpClient();
             var apiClient = new Client(apiUrl, httpClient);
 
             var model = new ElevatorCreateModel
