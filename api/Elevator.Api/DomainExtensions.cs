@@ -7,6 +7,9 @@ public static class DomainExtensions
 {
     public static ElevatorModel ToModel(this Elevator elevator)
     {
+        var lastEvent = elevator.Events?.OrderBy(e => e.ChangedTime).LastOrDefault();
+
+
         return new ElevatorModel
         {
             Id = elevator.Id,
@@ -16,7 +19,7 @@ public static class DomainExtensions
             OpenStreetMapId = elevator.OpenStreetMapId,
             Properties = elevator.Properties,
             Operator = elevator.Operator.ToModel(),
-            IsOperational = true // todo add actual logic
+            IsOperational = (lastEvent is null) || string.Equals(lastEvent.OperationMode, "Operational", StringComparison.InvariantCultureIgnoreCase)
         };
     }
 
@@ -45,6 +48,29 @@ public static class DomainExtensions
             Name = @operator.Name,
             ContactEmail = @operator.ContactEmail,
             ContactPhone = @operator.ContactPhone
+        };
+    }
+
+    public static MetaDataSourceInfoModel? ToModel(this MetaDataSourceInfo? metaDataSourceInfo)
+    {
+        return metaDataSourceInfo is not null
+            ? new MetaDataSourceInfoModel
+            {
+                TimeStamp = metaDataSourceInfo.TimeStamp,
+                License = metaDataSourceInfo.License,
+                SourceType = metaDataSourceInfo.SourceType,
+            }
+            : null;
+    }
+    
+    public static OperationChangeModel ToModel(this OperationChangeEvent operationChangeEvent)
+    {
+        return new OperationChangeModel
+        {
+            OperationStatus = Enum.Parse<OperationStatus>(operationChangeEvent.OperationMode),
+            Reason = operationChangeEvent.Reason,
+            TimeStamp = operationChangeEvent.ChangedTime,
+            MetaDataSourceInfo = operationChangeEvent.MetaDataSourceInfo.ToModel(),
         };
     }
 

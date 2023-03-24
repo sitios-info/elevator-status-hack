@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+
 namespace Elevator.Domain.Data;
 
 public class Elevator
@@ -10,6 +12,6 @@ public class Elevator
     public string? ManufacturerName { get; init; }
     public string? SerialNumber { get; init; }
     public Operator? Operator { get; init; }
-    public required IEnumerable<OperationChangeEvent> Events { get; init; }
+    public required IEnumerable<OperationChangeEvent>? Events { get; init; }
     public MetaDataSourceInfo? MetaDataSourceInfo { get; init; }
 }

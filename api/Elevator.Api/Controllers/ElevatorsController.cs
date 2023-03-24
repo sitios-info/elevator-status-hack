@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Elevator.Api.Controllers;
 
 using Domain;
@@ -32,7 +34,11 @@ public class ElevatorsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ElevatorModel>> GetElevatorAsync(Guid id)
     {
-        var elevator = await _dbContext.Elevators.FindAsync(id);
+        var elevator = await _dbContext.Elevators
+            .Include(e => e.MetaDataSourceInfo)
+            .Include(e => e.Events)
+            .Where(e => e.Id == id)
+            .SingleOrDefaultAsync();
         return elevator != null
             ? Ok(elevator.ToModel())
             : NotFound();
