@@ -2,8 +2,8 @@
 
 public class MetaDataSourceInfo
 {
-    public Guid Id { get; set; }
-    public string? License { get; set; }
-    public DateTime? TimeStamp { get; set; }
-    public string? SourceType { get; set; }
+    public Guid Id { get; init; }
+    public string? License { get; init; }
+    public DateTime? TimeStamp { get; init; }
+    public string? SourceType { get; init; }
 }

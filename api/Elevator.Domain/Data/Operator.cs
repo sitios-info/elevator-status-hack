@@ -2,8 +2,8 @@
 
 public class Operator
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string ContactEmail { get; set; }
-    public string ContactPhone { get; set; }
+    public required Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required string ContactEmail { get; init; }
+    public required string ContactPhone { get; init; }
 }

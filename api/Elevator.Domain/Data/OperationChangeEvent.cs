@@ -2,8 +2,8 @@
 
 public class OperationChangeEvent
 {
-    public Guid Id { get; set; }
-    public DateTime ChangedTime { get; set; }
-    public string Reason { get; set; }
-    public string OperationMode { get; set; }
+    public required Guid Id { get; init; }
+    public required DateTime ChangedTime { get; init; }
+    public required string Reason { get; init; }
+    public required string OperationMode { get; init; }
 }

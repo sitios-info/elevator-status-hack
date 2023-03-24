@@ -3,22 +3,13 @@ namespace Elevator.Domain.Data;
 
 public class Elevator
 {
-    public Guid Id { get; set; }
-    public Guid? OpenStreetMapId { get; set; }
-    public Dictionary<string, string> Properties { get; set; } = null!;
-    public GeoLocation Location { get; set; } = null!;
-    public string ManufacturerName { get; set; }
-    public string SerialNumber { get; set; }
-    public Operator? Operator { get; set; }
-    public List<OperationChangeEvent> Events { get; set; } = new();
-    public MetaDataSourceInfo? MetaDataSourceInfo { get; set; }
-}
-
-public class GeoLocation
-{
-    public Guid Id { get; set; }
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-    public Guid? OpenStreetMaPlaceId { get; set; }
-    public string? AddressText { get; set; }
+    public required Guid Id { get; init; }
+    public Guid? OpenStreetMapId { get; init; }
+    public Dictionary<string, string> Properties { get; init; } = new();
+    public GeoLocation? Location { get; init; }
+    public string? ManufacturerName { get; init; }
+    public string? SerialNumber { get; init; }
+    public Operator? Operator { get; init; }
+    public required IEnumerable<OperationChangeEvent> Events { get; init; }
+    public MetaDataSourceInfo? MetaDataSourceInfo { get; init; }
 }
