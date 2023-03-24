@@ -23,7 +23,7 @@ public class ElevatorsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ElevatorModel>>> GetAllElevatorsAsync()
     {
-        return Ok(_dbContext.Elevators.AsEnumerable().Select(e => e.ToModel()));
+        return Ok(_dbContext.Elevators.Include(e => e.Events).AsEnumerable().Select(e => e.ToModel()));
     }
 
     /// <summary>
