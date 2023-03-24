@@ -82,4 +82,16 @@ public static class DomainExtensions
             Coordinates = new[] { latitude, longitude }
         };
     }
+
+    public static PlannedMaintenanceModel ToModel(this PlannedMaintenance maintenance)
+    {
+        return new PlannedMaintenanceModel
+        {
+            Id = maintenance.Id,
+            Reason = maintenance.Reason,
+            Description = maintenance.Description,
+            End = maintenance.End,
+            Start = maintenance.Start,
+        };
+    }
 }

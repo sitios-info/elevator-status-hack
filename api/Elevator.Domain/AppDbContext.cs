@@ -18,6 +18,7 @@ public class AppDbContext: DbContext
     public required DbSet<Operator> Operators { get; set; }
     public required DbSet<MetaDataSourceInfo> MetaDataSourceInfos { get; set; }
     public required DbSet<GeoLocation> GeoLocations { get; set; }
+    public required DbSet<PlannedMaintenance> PlannedMaintenances { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
