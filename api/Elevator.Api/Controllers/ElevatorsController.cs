@@ -1,5 +1,6 @@
 namespace Elevator.Api.Controllers;
 
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
@@ -7,16 +8,34 @@ using Model;
 [Route("api/[controller]")]
 public class ElevatorsController : ControllerBase
 {
+    private readonly AppDbContext _dbContext;
+
+    public ElevatorsController(AppDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    
+    /// <summary>
+    /// Gets all elevators.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ElevatorModel>>> GetAllElevatorsAsync()
     {
-        throw new NotImplementedException();
+        return Ok(_dbContext.Elevators.AsEnumerable().Select(e => e.ToModel()));
     }
 
+    /// <summary>
+    /// Gets a certain elevator by id
+    /// </summary>
+    /// <param name="id">The id of the elevator which should be returned.</param>
+    /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<ElevatorModel>> GetElevatorAsync(string id)
+    public async Task<ActionResult<ElevatorModel>> GetElevatorAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var elevator = await _dbContext.Elevators.FindAsync(id);
+        return elevator != null
+            ? Ok(elevator.ToModel())
+            : NotFound();
     }
 
     [HttpPut]

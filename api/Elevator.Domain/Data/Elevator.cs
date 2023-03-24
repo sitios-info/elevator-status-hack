@@ -3,7 +3,7 @@ namespace Elevator.Domain.Data;
 
 public class Elevator
 {
-    public required Guid Id { get; init; }
+    public Guid Id { get; init; }
     public Guid? OpenStreetMapId { get; init; }
     public Dictionary<string, string> Properties { get; init; } = new();
     public GeoLocation? Location { get; init; }

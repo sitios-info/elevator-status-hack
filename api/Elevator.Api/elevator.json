@@ -1,0 +1,30 @@
+[
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "openStreetMapId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "properties": {
+      "additionalProp1": "string",
+      "additionalProp2": "string",
+      "additionalProp3": "string"
+    },
+    "location": {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "geometry": {
+        "type": "string",
+        "coordinates": [
+          0
+        ]
+      },
+      "openStreetMaPlaceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "addressText": "string"
+    },
+    "manufacturerName": "string",
+    "serialNumber": "string",
+    "operator": {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "string",
+      "contactEmail": "string",
+      "contactPhone": "string"
+    }
+  }
+]

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Elevator.Domain;
 
+using Elevator = Data.Elevator;
+
 public class AppDbContext: DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -24,8 +26,13 @@ public class AppDbContext: DbContext
             .Property(b => b.Properties)
             .HasConversion(
                 v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
-                v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, JsonSerializerOptions.Default) 
-                     ?? new Dictionary<string, string>(), 
+                v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, JsonSerializerOptions.Default)
+                     ?? new Dictionary<string, string>(),
                 ValueComparer.CreateDefault(typeof(Dictionary<string, string>), true));
+
+#if DEBUG
+        modelBuilder.Entity<Elevator>()
+            .HasData(DummyData.DummyElevator1);
+#endif
     }
 }
