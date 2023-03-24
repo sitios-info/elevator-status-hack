@@ -53,16 +53,7 @@ public class ElevatorsController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var elevator = new Elevator
-        {
-            Location = null,
-            ManufacturerName = model.ManufacturerName,
-            OpenStreetMapId = model.OpenStreetMapId,
-            Operator = null,
-            Properties = model.Properties ?? new Dictionary<string, string>(),
-            SerialNumber = model.SerialNumber,
-            Events = ArraySegment<OperationChangeEvent>.Empty
-        };
+        var elevator = await CreateElevatorAsync(model);
 
         await _dbContext.Elevators.AddAsync(elevator);
         await _dbContext.SaveChangesAsync();
@@ -81,5 +72,39 @@ public class ElevatorsController : ControllerBase
         }
 
         return Ok();
+    }
+
+    private async Task<Elevator> CreateElevatorAsync(ElevatorCreateModel model)
+    {
+        return new Elevator
+        {
+            Location = new GeoLocation
+            {
+                AddressText = model.Location.AddressText,
+                Latitude = model.Location.Geometry.Coordinates[0],
+                Longitude = model.Location.Geometry.Coordinates[1],
+                OpenStreetMaPlaceId = model.Location.OpenStreetMaPlaceId
+            },
+            ManufacturerName = model.ManufacturerName,
+            OpenStreetMapId = model.OpenStreetMapId,
+            Operator = await GetOrCreateOperatorAsync(model.Operator),
+            Properties = model.Properties ?? new Dictionary<string, string>(),
+            SerialNumber = model.SerialNumber,
+            Events = ArraySegment<OperationChangeEvent>.Empty
+        };
+    }
+
+    private async Task<Operator> GetOrCreateOperatorAsync(OperatorCreateModel model)
+    {
+        var @operator = await _dbContext.Operators.FirstOrDefaultAsync(e => e.Name == model.Name);
+        if (@operator != null)
+            return @operator;
+
+        return new Operator
+        {
+            Name = model.Name,
+            ContactEmail = model.ContactEmail ?? "",
+            ContactPhone = model.ContactPhone ?? ""
+        };
     }
 }
