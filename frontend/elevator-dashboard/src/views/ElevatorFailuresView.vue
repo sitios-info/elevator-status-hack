@@ -10,8 +10,8 @@ export default {
     methods: {
         async getElevators() {
             const res = await fetch("https://localhost:7220/api/Elevators");
-            const finalRes = await res.json();
-            this.elements = finalRes;
+            const finalRes = await res.json() as Elevator[];
+            this.elements = finalRes.filter(e => !e.isOperational);
         }
     },
     mounted() {
