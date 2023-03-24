@@ -1,19 +1,18 @@
 ﻿using System.Text.Json;
+using Elevator.Domain.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Elevator.Domain;
 
-public class DbContext: Microsoft.EntityFrameworkCore.DbContext
+public class AppDbContext: DbContext
 {
-    internal DbSet<Data.Elevator> Elevators { get; set; } = null!;
-
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        // connect to sqlite database
-        options.UseSqlite("elevator");
     }
-    
+
+    public DbSet<Data.Elevator> Elevators { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -22,6 +21,7 @@ public class DbContext: Microsoft.EntityFrameworkCore.DbContext
             .HasConversion(
                 v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
                 v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, JsonSerializerOptions.Default) 
-                     ?? new Dictionary<string, string>());
+                     ?? new Dictionary<string, string>(), 
+                ValueComparer.CreateDefault(typeof(Dictionary<string, string>), true));
     }
 }

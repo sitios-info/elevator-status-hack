@@ -1,5 +1,4 @@
-﻿using NetTopologySuite.Geometries;
-
+﻿
 namespace Elevator.Domain.Data;
 
 public class Elevator
@@ -10,11 +9,16 @@ public class Elevator
     public GeoLocation Location { get; set; } = null!;
     public string ManufacturerName { get; set; }
     public string SerialNumber { get; set; }
+    public Operator? Operator { get; set; }
+    public List<OperationChangeEvent> Events { get; set; } = new();
+    public MetaDataSourceInfo? MetaDataSourceInfo { get; set; }
 }
 
 public class GeoLocation
 {
-    public Point Location { get; set; } = null!;
+    public Guid Id { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
     public Guid? OpenStreetMaPlaceId { get; set; }
     public string? AddressText { get; set; }
 }
