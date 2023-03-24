@@ -45,8 +45,15 @@ public class ElevatorsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ElevatorModel>> DeleteElevatorAsync(string id)
+    public async Task<ActionResult> DeleteElevatorAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var elevator = await _dbContext.Elevators.FindAsync(id);
+        if (elevator != null)
+        {
+            _dbContext.Elevators.Remove(elevator);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        return Ok();
     }
 }
