@@ -1,34 +1,29 @@
 <script lang="ts">
-import type { ElevatorStatusElement } from '@/domain';
+import type { Elevator } from '@/domain';
 
 export default {
-  data() {
-    return {
-      elements: [
-        {
-          id: "sasasas",
-          title: "tttt",
-          author: "sasas",
-          year: 2222
-
-        },
-        {
-          id: "wwww",
-          title: "wwwww",
-          author: "ww",
-          year: 2222
-
+    data() {
+        return {
+            elements: [] as Elevator[]
+        };
+    },
+    methods: {
+        async getElevators() {
+            const res = await fetch("https://localhost:7220/api/Elevators");
+            const finalRes = await res.json();
+            this.elements = finalRes;
         }
-      ] as ElevatorStatusElement[]
-      }
-    }
-  }
+    },
+    mounted() {
+        this.getElevators();
+    },
+}
 
 </script>
 
 <template>
   <main>
-   <ElevatorStatus :elements="elements"/>
+   <ElevatorStatus :elements="elements" title="Ausgefallene Aufzüge"/>
   </main>
 </template>
 

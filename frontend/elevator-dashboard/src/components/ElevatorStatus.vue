@@ -1,15 +1,32 @@
 <script setup lang="ts">
-import type { ElevatorStatusElement } from '@/domain';
+import type { GetElevatorsResult } from '@/domain'
 
 defineProps<{
-  elements: ElevatorStatusElement[]
+  elements: GetElevatorsResult
+  title: string
 }>()
 </script>
 
 <template>
-     <div class="container mt-2">
-      <ul class="list-group">
-        <li v-for="element in elements" :key="element.id" class="list-group-item">Elev{{element.id }}, {{ element.author }}</li>
-      </ul>
+  <div class="container mt-2">
+    <h2>{{ title }}</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Funktioniert</th>
+          <th scope="col">Beschreibung</th>
+          <th scope="col">Hersteller</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr v-for="element in elements" :key="element.id">
+      <th scope="row">{{ element.id }}</th>
+      <td>{{ element.isOperational ? '✔️' : '❌' }}</td>
+      <td>{{ element.properties['description'] }}</td>
+      <td>{{ element.manufacturerName }}</td>
+    </tr>
+  </tbody>
+  </table>
   </div>
 </template>
