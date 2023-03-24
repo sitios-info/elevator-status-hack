@@ -22,7 +22,7 @@ const router = createRouter({
     {
       path: '/elevatormaintenances',
       name: 'elevatormaintenances',
-      component: () => import('../views/ElevatoMaintenancesrView.vue')
+      component: () => import('../views/ElevatorMaintenancesView.vue')
     }
   ]
 })

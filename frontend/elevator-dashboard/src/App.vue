@@ -10,10 +10,10 @@ import { RouterLink, RouterView } from 'vue-router'
           <a class="nav-link" href="#"><RouterLink to="/">Home</RouterLink></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><RouterLink to="/elevators">Alle Aufzuege</RouterLink></a>
+          <a class="nav-link" href="#"><RouterLink to="/elevators">Alle Aufzüge</RouterLink></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><RouterLink to="/elevatorsfailures">Ausgefallene Aufzuege </RouterLink></a>
+          <a class="nav-link" href="#"><RouterLink to="/elevatorsfailures">Ausgefallene Aufzüge </RouterLink></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#"><RouterLink to="/elevatormaintenances">Geplante Wartungen</RouterLink></a>
